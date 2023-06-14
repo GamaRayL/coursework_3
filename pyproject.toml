@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "coursework-3"
+version = "0.1.0"
+description = "Реализация виджета, что выводит последние операции по счёту"
+authors = ["Gamid <gamaizingg@gmail.com>"]
+readme = "README.md"
+packages = [{include = "coursework_3"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

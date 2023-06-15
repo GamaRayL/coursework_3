@@ -33,3 +33,4 @@ lib64/
 htmlcov
 
 .coverage
+poetry.lock

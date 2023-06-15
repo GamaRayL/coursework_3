@@ -2,7 +2,13 @@ from datetime import datetime
 
 
 def get_last_operations(_list):
-    sorted_list = sorted(_list, key=lambda x: x.get("date", ""))
+    """
+    Фунеция сортирует и возвращает последние 5 операций клиентов банка.
+    ps если же конечно пройдут условие на наличие свойств в словаре.
+    :param _list: список словарей
+    :return: возврат последних операций
+    """
+    sorted_list = sorted(_list, key=lambda x: x.get("date", ""), reverse=True)
 
     count = 0
     result = []
@@ -43,9 +49,12 @@ def get_date_reformat(value):
 
 
 def get_mask_card(value):
-    if "счет" in value.lower():
-        return None
-    else:
+    """
+    Функция возвращает преобразованный номер карты, основываясь на отсутствие "счет" в строке.
+    :param value: строка
+    :return: замаскированный номер карты
+    """
+    if "счет" not in value.lower():
         card_split = value.split(" ")
         card_number = card_split[-1]
         card_name = " ".join(card_split[:-1])
@@ -60,40 +69,14 @@ def get_mask_card(value):
 
 
 def get_mask_account(value):
+    """
+    Функция возвращает преобразованный номер счета, основываясь на наличии "счет" в строке.
+    :param value: строка
+    :return: замаскированный счет
+    """
     if "счет" in value.lower():
         account_split = value.split(" ")
         account_number = account_split[-1][-4:]
         account_name = " ".join(account_split[:-1])
 
         return f'{account_name} **{account_number}'
-
-
-print(get_last_operations([{
-    "id": 317987878,
-    "state": "EXECUTED",
-    "date": "2018-01-13T13:00:58.458625",
-    "operationAmount": {
-        "amount": "55985.82",
-        "currency": {
-            "name": "USD",
-            "code": "USD"
-        }
-    },
-    "description": "Перевод с карты на карту",
-    "from": "Visa Classic 8906171742833215",
-    "to": "Cчет 6086997013848217"
-},{
-    "id": 317987878,
-    "state": "EXECUTED",
-    "date": "2018-01-13T13:00:58.458625",
-    "operationAmount": {
-        "amount": "55985.82",
-        "currency": {
-            "name": "USD",
-            "code": "USD"
-        }
-    },
-    "description": "Перевод с карты на карту",
-    "from": "Visa Classic 8906171742833215",
-    "to": "Cчет 6086997013848217"
-}]))

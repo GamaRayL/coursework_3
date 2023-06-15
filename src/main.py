@@ -1,15 +1,10 @@
-import json
-
 from src.utils import *
 
 
 def main():
-    _list = []
+    path = "../src/store/operations.json"
 
-    with open("../src/store/operations.json", encoding="utf-8") as file:
-        _list = json.load(file)
-
-    print(get_last_operations(_list))
+    print(get_last_operations(get_data(path)))
 
 
 main()

@@ -39,3 +39,4 @@ def test_get_date_reformat():
     assert get_date_reformat("2018-08-19T04:27:37.904916") == "2018.08.19"
     with pytest.raises(ValueError):
         get_date_reformat("2018-08-19 04:27:37.904916")
+

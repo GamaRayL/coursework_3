@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 
@@ -16,14 +17,15 @@ def get_last_operations(_list):
     for item in sorted_list:
         if count == 5:
             break
-        if "state" in item and "EXECUTED" == item["state"] and "from" in item:
+        if "state" in item and "EXECUTED" == item["state"]:
 
             date = get_date_reformat(item["date"])
-            card, account = item["from"], item["to"]
+            account = item["to"]
+            card = item.get("from", None)
             amount = item["operationAmount"]["amount"]
             currency = item["operationAmount"]["currency"]["name"]
 
-            if get_mask_account(account) is not None and get_mask_card(card) is not None:
+            if get_mask_account(account) is not None:
                 count += 1
 
                 result.append(f"{date} Перевод организации")
@@ -50,10 +52,12 @@ def get_date_reformat(value):
 
 def get_mask_card(value):
     """
-    Функция возвращает преобразованный номер карты, основываясь на отсутствие "счет" в строке.
+    Функция возвращает преобразованный номер карты, основываясь на отсутствии "счет" в строке.
     :param value: строка
-    :return: замаскированный номер карты
+    :return: замаскированный номер карты / "Источник перевода отсутствует" /
     """
+    if value is None:
+        return "Источник перевода отсутствует"
     if "счет" not in value.lower():
         card_split = value.split(" ")
         card_number = card_split[-1]
@@ -66,6 +70,7 @@ def get_mask_card(value):
         number_mask = " ".join(card_number)
 
         return f"{card_name} {number_mask}"
+    return "Некорректный номер"
 
 
 def get_mask_account(value):
@@ -80,3 +85,12 @@ def get_mask_account(value):
         account_name = " ".join(account_split[:-1])
 
         return f'{account_name} **{account_number}'
+
+
+def get_data(path):
+    _list = []
+
+    with open(path, encoding="utf-8") as file:
+        _list = json.load(file)
+
+        return _list

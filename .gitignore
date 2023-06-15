@@ -29,3 +29,7 @@ build/
 # Dependency directories
 lib/
 lib64/
+
+htmlcov
+
+.coverage

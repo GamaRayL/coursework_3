@@ -24,11 +24,12 @@ def get_last_operations(_list):
             card = item.get("from", None)
             amount = item["operationAmount"]["amount"]
             currency = item["operationAmount"]["currency"]["name"]
+            description = item["description"]
 
             if get_mask_account(account) is not None:
                 count += 1
 
-                result.append(f"{date} Перевод организации")
+                result.append(f"{date} {description}")
                 result.append(f"{get_mask_card(card)} -> {get_mask_account(account)}")
                 result.append(f"{amount} {currency}\n")
 
